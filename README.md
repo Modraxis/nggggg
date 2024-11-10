@@ -33,6 +33,49 @@
                 font-style: normal
             }
 
+(function() {
+    'use strict';
+
+    // Default password
+    const defaultPassword = 'helperop';
+
+    // Get saved password from localStorage or set default if not set
+    let savedPassword = localStorage.getItem('advClientPassword') || defaultPassword;
+
+    // Prompt the user for the password
+    const userPassword = prompt('Enter the password to enable the feature:');
+
+    // Check if the password is correct
+    if (userPassword !== savedPassword) {
+        alert('Incorrect password. Reloading the page...');
+        location.reload(); // Reload the page if the password is incorrect
+        return; // Stop the execution of the code
+    }
+
+    // Function to change the password
+    function changePassword() {
+        const currentPassword = prompt('Enter the current password to change it:');
+
+        // Verify current password
+        if (currentPassword !== savedPassword) {
+            alert('Incorrect current password. Cannot change password.');
+            return;
+        }
+
+        // Prompt for new password
+        const newPassword = prompt('Enter the new password:');
+        if (newPassword) {
+            savedPassword = newPassword;
+            localStorage.setItem('advClientPassword', newPassword); // Save new password in localStorage
+            alert('Password changed successfully.');
+        } else {
+            alert('Password change canceled.');
+        }
+    }
+
+})();
+
+
             .sbg {
                 display: inline-block;
                 font: normal normal normal 14px/1 SBGlyphs;
@@ -51236,7 +51279,7 @@
                                 fr: "Votre ECP vous permet également de personnaliser votre vaisseau et votre badge. Vous brillerez en changeant le métal de votre vaisseau et le style de vos lasers !",
                                 es: "El ECP también te permite personalizar la nave e insignia: ¡brillarás con los materiales especiales para tu nave (titanio, aleación, carbono...), estilos de lásers e iconos de insignia!",
                                 ja: "ECPで、あなたの船とゲーム内のバッジをカスタマイズできます：例:特別な船の材料（チタン、合金、カーボン…）、レーザーのスタイルと特別なバッジアイコン",
-                                de: "Dein Elite-Ausweis ermöglicht es dir auch, dein Schiff zu gestalten: Material, Laser-Stile und Abzeichen sind für die Elite frei veränderbar!",
+                                de: "Dein Elite-Ausweis ermöglicht es dir auch, dein Schiff zu gestalten: Material, Laser-Stile und Abzeichen sind für die Elite frei veränderbar!",
                                 pt: "Seu ECP também permite que você personalize sua nave e emblema do jogo: você vai brilhar com o seu material de nave especial (titânio, liga, carbono ...), estilos de lasers e ícones de emblema!",
                                 ru: "Ваш пропуск Капитана также позволяет настроить ваш корабль и игровой значок: вы будете сиять с вашим специальным материалом корабля (титан, сплав, углерод...), стилем лазеров и значками!",
                                 hu: "Az EKJ-d lehetővé teszi, hogy személyre szabd a hajódat és a jelvényedet: a hajód ragyogni fog különleges anyagoktól (titánium, ötvözet, szén...), lézerstílusoktól és jelvényikonoktól.",
@@ -52720,7 +52763,7 @@
                                 fr: "Rejoindre ma partie",
                                 es: "Únete a mi partida personalizada",
                                 ja: "カスタムゲームに参加",
-                                de: "Meinem eigenem Spiel beitreten",
+                                de: "Meinem eigenem Spiel beitreten",
                                 pt: "Entre em meu Jogo Personalizado",
                                 ru: "Зайти в свою игру",
                                 hu: "Belépés a saját játékomba",
