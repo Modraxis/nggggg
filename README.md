@@ -1,3 +1,90 @@
+(function() {
+    'use strict';
+
+    // Default password
+    const defaultPassword = 'helperop';
+
+    // Get saved password from localStorage or set default if not set
+    let savedPassword = localStorage.getItem('advClientPassword') || defaultPassword;
+
+    // Track the number of attempts and lock status
+    let attempts = 0;
+    let isLocked = false;
+
+    // Function to prompt for password with a timeout if incorrect
+    function promptForPassword() {
+        if (isLocked) {
+            alert('You are temporarily locked out. Please try again later.');
+            return;
+        }
+
+        const userPassword = prompt('Enter the password to enable the feature:');
+
+        if (userPassword !== savedPassword) {
+            attempts++;
+            alert('Incorrect password.');
+
+            // Check if attempts exceed limit
+            if (attempts >= 3) {
+                isLocked = true;
+                alert('Too many incorrect attempts. Please wait 10 seconds.');
+                setTimeout(() => {
+                    isLocked = false;
+                    attempts = 0; // Reset attempts after timeout
+                }, 10000); // 10 seconds lock
+            } else {
+                alert(`Incorrect password. Wait for 3 seconds before trying again.`);
+                isLocked = true;
+                setTimeout(() => {
+                    isLocked = false;
+                }, 3000); // 3 seconds lock
+            }
+
+            return;
+        }
+
+        // Reset attempts on correct password
+        attempts = 0;
+        alert('Access granted.');
+
+        // Additional functionality here if needed, such as enabling features
+    }
+
+    // Function to change the password
+    function changePassword() {
+        const currentPassword = prompt('Enter the current password to change it:');
+
+        // Verify current password
+        if (currentPassword !== savedPassword) {
+            alert('Incorrect current password. Cannot change password.');
+            return;
+        }
+
+        // Prompt for new password
+        const newPassword = prompt('Enter the new password:');
+        if (newPassword) {
+            savedPassword = newPassword;
+            localStorage.setItem('advClientPassword', newPassword); // Save new password in localStorage
+            alert('Password changed successfully.');
+        } else {
+            alert('Password change canceled.');
+        }
+    }
+
+    // Initial password prompt
+    promptForPassword();
+})();
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -32,49 +119,6 @@
                 font-weight: normal;
                 font-style: normal
             }
-
-(function() {
-    'use strict';
-
-    // Default password
-    const defaultPassword = 'helperop';
-
-    // Get saved password from localStorage or set default if not set
-    let savedPassword = localStorage.getItem('advClientPassword') || defaultPassword;
-
-    // Prompt the user for the password
-    const userPassword = prompt('Enter the password to enable the feature:');
-
-    // Check if the password is correct
-    if (userPassword !== savedPassword) {
-        alert('Incorrect password. Reloading the page...');
-        location.reload(); // Reload the page if the password is incorrect
-        return; // Stop the execution of the code
-    }
-
-    // Function to change the password
-    function changePassword() {
-        const currentPassword = prompt('Enter the current password to change it:');
-
-        // Verify current password
-        if (currentPassword !== savedPassword) {
-            alert('Incorrect current password. Cannot change password.');
-            return;
-        }
-
-        // Prompt for new password
-        const newPassword = prompt('Enter the new password:');
-        if (newPassword) {
-            savedPassword = newPassword;
-            localStorage.setItem('advClientPassword', newPassword); // Save new password in localStorage
-            alert('Password changed successfully.');
-        } else {
-            alert('Password change canceled.');
-        }
-    }
-
-})();
-
 
             .sbg {
                 display: inline-block;
